@@ -1,0 +1,13 @@
+node_modules
+.pnpm-store
+.next
+dist
+build
+.env
+.env.local
+.turbo
+.DS_Store
+coverage
+pnpm-debug.log*
+
+/generated/prisma

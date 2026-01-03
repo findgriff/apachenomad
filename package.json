@@ -1,0 +1,23 @@
+{
+  "name": "apachenomad",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Apache Nomad monorepo",
+  "workspaces": [
+    "apps/*",
+    "services/*",
+    "packages/*"
+  ],
+  "scripts": {},
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^5.18.0",
+    "cross-env": "^10.1.0",
+    "dotenv": "^17.2.3",
+    "prisma": "^5.18.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5",
+    "zod": "^4.3.4"
+  }
+}
