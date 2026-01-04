@@ -1,5 +1,6 @@
 'use client';
 
+import Link from "next/link";
 import { FormEvent, useMemo, useState } from "react";
 
 type JobResult = {
@@ -107,6 +108,14 @@ export default function Home() {
             Plan a 3–6 city loop with Amadeus pricing. Provide your cities, date window, and airline
             preferences; we will queue an optimization job and return the best itinerary.
           </p>
+          <div className="flex flex-wrap gap-3 pt-2 text-sm">
+            <Link
+              href="/bookings"
+              className="inline-flex items-center justify-center rounded-full border border-emerald-400/40 bg-emerald-400/10 px-4 py-2 font-medium text-emerald-100 transition hover:border-emerald-300/80 hover:bg-emerald-400/20"
+            >
+              View upcoming bookings
+            </Link>
+          </div>
         </header>
 
         <section className="grid gap-6 rounded-2xl bg-slate-900/60 p-6 shadow-lg ring-1 ring-white/10 backdrop-blur sm:grid-cols-[1.2fr_1fr] sm:gap-10">
