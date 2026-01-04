@@ -1,6 +1,5 @@
 'use client';
 
-import Link from "next/link";
 import { FormEvent, useMemo, useState } from "react";
 import ItineraryMap from "../components/ItineraryMap";
 
@@ -104,8 +103,9 @@ export default function Home() {
       const data = await res.json();
       setJobId(data.id);
       setJob(null);
-    } catch (err: any) {
-      setError(err?.message || "Failed to create job");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Failed to create job";
+      setError(message);
     } finally {
       setSubmitting(false);
     }
@@ -122,8 +122,9 @@ export default function Home() {
       }
       const data = await res.json();
       setJob(data);
-    } catch (err: any) {
-      setError(err?.message || "Failed to fetch job");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Failed to fetch job";
+      setError(message);
     } finally {
       setLoading(false);
     }
