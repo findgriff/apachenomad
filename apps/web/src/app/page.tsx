@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent, useMemo, useState } from "react";
+import ItineraryMap from "../components/ItineraryMap";
 
 type JobResult = {
   id: string;
@@ -22,6 +23,9 @@ export default function Home() {
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [originValue, setOriginValue] = useState("");
+  const [endValue, setEndValue] = useState("");
+  const [citiesValue, setCitiesValue] = useState("");
 
   const today = useMemo(() => new Date(), []);
   const inTenDays = useMemo(() => {
@@ -118,6 +122,8 @@ export default function Home() {
                   name="origin"
                   placeholder="SOF"
                   required
+                  value={originValue}
+                  onChange={(event) => setOriginValue(event.target.value)}
                   className="rounded-lg border border-white/10 bg-slate-900 px-3 py-2 text-base text-white outline-none ring-emerald-400/30 focus:ring-2"
                 />
               </label>
@@ -126,6 +132,8 @@ export default function Home() {
                 <input
                   name="endFixed"
                   placeholder="Leave blank to return to origin"
+                  value={endValue}
+                  onChange={(event) => setEndValue(event.target.value)}
                   className="rounded-lg border border-white/10 bg-slate-900 px-3 py-2 text-base text-white outline-none ring-emerald-400/30 focus:ring-2"
                 />
               </label>
@@ -137,6 +145,8 @@ export default function Home() {
                 name="cities"
                 placeholder="BCN, ROM, PAR"
                 required
+                value={citiesValue}
+                onChange={(event) => setCitiesValue(event.target.value)}
                 className="rounded-lg border border-white/10 bg-slate-900 px-3 py-2 text-base text-white outline-none ring-emerald-400/30 focus:ring-2"
               />
             </label>
@@ -284,6 +294,7 @@ export default function Home() {
             )}
           </div>
         </section>
+        <ItineraryMap codes={[originValue, ...citiesValue.split(","), endValue]} />
       </div>
     </main>
   );
