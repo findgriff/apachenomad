@@ -18,6 +18,14 @@ export type SearchLegResult = {
   fetchedAt: string;
 };
 
+export type LocationLookupResult = {
+  iataCode: string;
+  name: string;
+  cityName?: string;
+  countryCode?: string;
+  subType?: string;
+};
+
 export interface PricingConfirmInput {
   offerIds: string[];
   currency?: string;
@@ -49,7 +57,7 @@ async function getToken(): Promise<string> {
 
   const res = await request(`${baseUrl}/v1/security/oauth2/token`, {
     method: "POST",
-    body,
+    body: body.toString(),
     headers: { "content-type": "application/x-www-form-urlencoded" },
   });
 
@@ -165,6 +173,42 @@ export async function priceOffers(offers: any[]): Promise<any> {
   }
 
   return res.body.json();
+}
+
+export async function lookupCityCode(keyword: string): Promise<LocationLookupResult | null> {
+  const token = await getToken();
+  const url = new URL(`${baseUrl}/v1/reference-data/locations`);
+  url.searchParams.set("subType", "AIRPORT,CITY");
+  url.searchParams.set("keyword", keyword);
+  url.searchParams.set("page[limit]", "1");
+
+  const res = await request(url.toString(), {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.statusCode === 401) {
+    tokenCache = null;
+  }
+  if (res.statusCode >= 400) {
+    const body = await res.body.text();
+    throw new Error(`Amadeus location lookup failed (${res.statusCode}): ${body}`);
+  }
+
+  const json: any = await res.body.json();
+  const [entry] = Array.isArray(json?.data) ? json.data : [];
+  if (!entry?.iataCode) {
+    return null;
+  }
+
+  return {
+    iataCode: entry.iataCode,
+    name: entry.name ?? keyword,
+    cityName: entry.address?.cityName,
+    countryCode: entry.address?.countryCode,
+    subType: entry.subType,
+  };
 }
 
 export function resetTokenCache() {

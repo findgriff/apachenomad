@@ -8,7 +8,8 @@
   "dependencies": {
     "@nomad/amadeus-adapter": "workspace:*",
     "@nomad/shared": "workspace:*",
-    "@prisma/client": "^7.2.0",
+    "@prisma/client": "^5.22.0",
+    "dotenv": "^17.2.3",
     "bullmq": "^5.40.1",
     "ioredis": "^5.6.0",
     "undici": "^7.3.0"

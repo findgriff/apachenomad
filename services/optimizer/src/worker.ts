@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { Worker, Job } from "bullmq";
 import IORedis from "ioredis";
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { searchLeg } from "@nomad/amadeus-adapter";
 import { priceKey, redis, takeToken } from "@nomad/shared";
 
@@ -74,7 +74,7 @@ async function fetchLegPrice(
       offerId: result.offerId ?? undefined,
       priceCents: result.minPriceCents ?? undefined,
       currency: result.currency ?? jobConfig.currency,
-      legs: result.legs,
+      legs: result.legs as Prisma.InputJsonValue,
       fetchedAt: new Date(result.fetchedAt),
     },
     create: {
@@ -90,7 +90,7 @@ async function fetchLegPrice(
       offerId: result.offerId ?? undefined,
       priceCents: result.minPriceCents ?? undefined,
       currency: result.currency ?? jobConfig.currency,
-      legs: result.legs,
+      legs: result.legs as Prisma.InputJsonValue,
     },
   });
 
@@ -177,7 +177,7 @@ new Worker(
           currency: dbJob.currency,
           pricingDeltaPct: 0,
           deepLink: "#",
-          legs: pricedLegs,
+          legs: pricedLegs as Prisma.InputJsonValue,
           pricedAt: new Date(),
         },
         create: {
@@ -189,7 +189,7 @@ new Worker(
           currency: dbJob.currency,
           pricingDeltaPct: 0,
           deepLink: "#",
-          legs: pricedLegs,
+          legs: pricedLegs as Prisma.InputJsonValue,
           pricedAt: new Date(),
         },
       });

@@ -5,6 +5,7 @@ import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
 import { Queue } from "bullmq";
 import IORedis from "ioredis";
+import { lookupCityCode } from "@nomad/amadeus-adapter";
 
 const app = Fastify({ logger: true });
 
@@ -18,7 +19,7 @@ const jobsQ = new Queue("jobs", { connection: redisConnection });
 const JobSchema = z.object({
   origin: z.string(),
   endFixed: z.string().optional().nullable(),
-  cities: z.array(z.string()).min(3).max(6),
+  cities: z.array(z.string()).min(2).max(6),
   windowStart: z.string(),
   windowEnd: z.string(),
   nightsMin: z.number().int().min(1),
@@ -36,6 +37,24 @@ app.register(cors, {
   origin: true,
 });
 
+const iataCode = /^[A-Za-z]{3}$/;
+
+async function resolveLocationCode(value: string, label: string): Promise<string> {
+  const trimmed = value.trim();
+  if (!trimmed) {
+    throw new Error(`${label} is required`);
+  }
+  if (iataCode.test(trimmed)) {
+    return trimmed.toUpperCase();
+  }
+
+  const resolved = await lookupCityCode(trimmed);
+  if (!resolved?.iataCode) {
+    throw new Error(`Unknown city name: ${trimmed}`);
+  }
+  return resolved.iataCode.toUpperCase();
+}
+
 app.post("/jobs", async (req, reply) => {
   const parsed = JobSchema.safeParse(req.body);
   if (!parsed.success) {
@@ -43,11 +62,28 @@ app.post("/jobs", async (req, reply) => {
   }
 
   const body = parsed.data;
+  let origin: string;
+  let cities: string[];
+  let endFixed: string | null = null;
+
+  try {
+    origin = await resolveLocationCode(body.origin, "origin");
+    cities = await Promise.all(body.cities.map((city, index) => resolveLocationCode(city, `city ${index + 1}`)));
+    const trimmedEnd = body.endFixed?.trim();
+    if (trimmedEnd) {
+      endFixed = await resolveLocationCode(trimmedEnd, "end");
+    }
+  } catch (error: any) {
+    return reply.code(400).send({ error: error?.message ?? "Invalid city input" });
+  }
 
   const job = await prisma.job.create({
     data: {
       status: "queued",
       ...body,
+      origin,
+      cities,
+      endFixed,
       windowStart: new Date(body.windowStart),
       windowEnd: new Date(body.windowEnd),
     },
