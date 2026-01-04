@@ -98,18 +98,18 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-950 text-slate-50">
+    <main className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-yellow-400/20 via-black to-black text-yellow-50">
       <div className="mx-auto flex max-w-5xl flex-col gap-8 px-6 py-12">
         <header className="flex flex-col gap-2">
-          <p className="text-sm uppercase tracking-[0.2em] text-emerald-200">Apache Nomad</p>
+          <p className="text-sm uppercase tracking-[0.2em] text-yellow-200">Apache Nomad</p>
           <h1 className="text-3xl font-semibold sm:text-4xl">Multi-stop trip planner</h1>
-          <p className="text-sm text-slate-300 sm:text-base">
+          <p className="text-sm text-yellow-100/70 sm:text-base">
             Plan a 3–6 city loop with Amadeus pricing. Provide your cities, date window, and airline
             preferences; we will queue an optimization job and return the best itinerary.
           </p>
         </header>
 
-        <section className="grid gap-6 rounded-2xl bg-slate-900/60 p-6 shadow-lg ring-1 ring-white/10 backdrop-blur sm:grid-cols-[1.2fr_1fr] sm:gap-10">
+        <section className="grid gap-6 rounded-2xl bg-black/60 p-6 shadow-[0_25px_60px_rgba(0,0,0,0.55)] ring-1 ring-yellow-400/20 backdrop-blur sm:grid-cols-[1.2fr_1fr] sm:gap-10">
           <form className="space-y-4" onSubmit={submit}>
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="flex flex-col gap-2 text-sm">
@@ -118,7 +118,7 @@ export default function Home() {
                   name="origin"
                   placeholder="SOF"
                   required
-                  className="rounded-lg border border-white/10 bg-slate-900 px-3 py-2 text-base text-white outline-none ring-emerald-400/30 focus:ring-2"
+                  className="rounded-lg border border-yellow-400/20 bg-black/60 px-3 py-2 text-base text-yellow-50 outline-none ring-yellow-300/40 focus:ring-2"
                 />
               </label>
               <label className="flex flex-col gap-2 text-sm">
@@ -126,7 +126,7 @@ export default function Home() {
                 <input
                   name="endFixed"
                   placeholder="Leave blank to return to origin"
-                  className="rounded-lg border border-white/10 bg-slate-900 px-3 py-2 text-base text-white outline-none ring-emerald-400/30 focus:ring-2"
+                  className="rounded-lg border border-yellow-400/20 bg-black/60 px-3 py-2 text-base text-yellow-50 outline-none ring-yellow-300/40 focus:ring-2"
                 />
               </label>
             </div>
@@ -137,7 +137,7 @@ export default function Home() {
                 name="cities"
                 placeholder="BCN, ROM, PAR"
                 required
-                className="rounded-lg border border-white/10 bg-slate-900 px-3 py-2 text-base text-white outline-none ring-emerald-400/30 focus:ring-2"
+                className="rounded-lg border border-yellow-400/20 bg-black/60 px-3 py-2 text-base text-yellow-50 outline-none ring-yellow-300/40 focus:ring-2"
               />
             </label>
 
@@ -149,7 +149,7 @@ export default function Home() {
                   type="date"
                   defaultValue={today.toISOString().slice(0, 10)}
                   required
-                  className="rounded-lg border border-white/10 bg-slate-900 px-3 py-2 text-base text-white outline-none ring-emerald-400/30 focus:ring-2"
+                  className="rounded-lg border border-yellow-400/20 bg-black/60 px-3 py-2 text-base text-yellow-50 outline-none ring-yellow-300/40 focus:ring-2"
                 />
               </label>
               <label className="flex flex-col gap-2 text-sm">
@@ -159,7 +159,7 @@ export default function Home() {
                   type="date"
                   defaultValue={inTenDays.toISOString().slice(0, 10)}
                   required
-                  className="rounded-lg border border-white/10 bg-slate-900 px-3 py-2 text-base text-white outline-none ring-emerald-400/30 focus:ring-2"
+                  className="rounded-lg border border-yellow-400/20 bg-black/60 px-3 py-2 text-base text-yellow-50 outline-none ring-yellow-300/40 focus:ring-2"
                 />
               </label>
             </div>
@@ -172,7 +172,7 @@ export default function Home() {
                   type="number"
                   min={1}
                   defaultValue={2}
-                  className="rounded-lg border border-white/10 bg-slate-900 px-3 py-2 text-base text-white outline-none ring-emerald-400/30 focus:ring-2"
+                  className="rounded-lg border border-yellow-400/20 bg-black/60 px-3 py-2 text-base text-yellow-50 outline-none ring-yellow-300/40 focus:ring-2"
                 />
               </label>
               <label className="flex flex-col gap-2 text-sm">
@@ -182,7 +182,7 @@ export default function Home() {
                   type="number"
                   min={1}
                   defaultValue={4}
-                  className="rounded-lg border border-white/10 bg-slate-900 px-3 py-2 text-base text-white outline-none ring-emerald-400/30 focus:ring-2"
+                  className="rounded-lg border border-yellow-400/20 bg-black/60 px-3 py-2 text-base text-yellow-50 outline-none ring-yellow-300/40 focus:ring-2"
                 />
               </label>
               <label className="flex flex-col gap-2 text-sm">
@@ -190,7 +190,7 @@ export default function Home() {
                 <select
                   name="maxConnections"
                   defaultValue={1}
-                  className="rounded-lg border border-white/10 bg-slate-900 px-3 py-2 text-base text-white outline-none ring-emerald-400/30 focus:ring-2"
+                  className="rounded-lg border border-yellow-400/20 bg-black/60 px-3 py-2 text-base text-yellow-50 outline-none ring-yellow-300/40 focus:ring-2"
                 >
                   <option value={0}>Direct only</option>
                   <option value={1}>Up to 1 stop</option>
@@ -204,7 +204,7 @@ export default function Home() {
                 <input
                   name="includeAirlines"
                   placeholder="W6, U2"
-                  className="rounded-lg border border-white/10 bg-slate-900 px-3 py-2 text-base text-white outline-none ring-emerald-400/30 focus:ring-2"
+                  className="rounded-lg border border-yellow-400/20 bg-black/60 px-3 py-2 text-base text-yellow-50 outline-none ring-yellow-300/40 focus:ring-2"
                 />
               </label>
               <label className="flex flex-col gap-2 text-sm">
@@ -212,7 +212,7 @@ export default function Home() {
                 <input
                   name="excludeAirlines"
                   placeholder="FR, U2"
-                  className="rounded-lg border border-white/10 bg-slate-900 px-3 py-2 text-base text-white outline-none ring-emerald-400/30 focus:ring-2"
+                  className="rounded-lg border border-yellow-400/20 bg-black/60 px-3 py-2 text-base text-yellow-50 outline-none ring-yellow-300/40 focus:ring-2"
                 />
               </label>
             </div>
@@ -221,7 +221,7 @@ export default function Home() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="rounded-full bg-emerald-500 px-5 py-2 text-sm font-semibold text-slate-900 shadow-lg shadow-emerald-500/20 transition hover:-translate-y-0.5 hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-60"
+                className="rounded-full bg-yellow-400 px-5 py-2 text-sm font-semibold text-black shadow-lg shadow-yellow-500/20 transition hover:-translate-y-0.5 hover:bg-yellow-300 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {submitting ? "Queuing..." : "Create job"}
               </button>
@@ -230,50 +230,50 @@ export default function Home() {
                   type="button"
                   onClick={refresh}
                   disabled={loading}
-                  className="rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:border-emerald-400 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="rounded-full border border-yellow-400/40 px-5 py-2 text-sm font-semibold text-yellow-100 transition hover:-translate-y-0.5 hover:border-yellow-300 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {loading ? "Refreshing..." : "Refresh status"}
                 </button>
               )}
               {jobId && (
-                <span className="text-xs text-slate-300">Job ID: {jobId}</span>
+                <span className="text-xs text-yellow-100/70">Job ID: {jobId}</span>
               )}
             </div>
-            {error && <p className="text-sm text-rose-200">{error}</p>}
+            {error && <p className="text-sm text-yellow-200">{error}</p>}
           </form>
 
-          <div className="flex flex-col gap-4 rounded-xl border border-white/10 bg-slate-900/40 p-4 shadow-inner">
-            <h2 className="text-lg font-semibold text-white">Status</h2>
+          <div className="flex flex-col gap-4 rounded-xl border border-yellow-400/20 bg-black/50 p-4 shadow-inner">
+            <h2 className="text-lg font-semibold text-yellow-50">Status</h2>
             {!job && !jobId && (
-              <p className="text-sm text-slate-300">Submit a request to view progress.</p>
+              <p className="text-sm text-yellow-100/70">Submit a request to view progress.</p>
             )}
             {jobId && !job && (
-              <p className="text-sm text-slate-300">
+              <p className="text-sm text-yellow-100/70">
                 Job queued. Click “Refresh status” to poll the optimizer.
               </p>
             )}
             {job && (
-              <div className="space-y-3 text-sm text-slate-200">
-                <div className="flex items-center justify-between rounded-lg border border-white/10 bg-slate-900 px-3 py-2">
+              <div className="space-y-3 text-sm text-yellow-100/80">
+                <div className="flex items-center justify-between rounded-lg border border-yellow-400/20 bg-black/60 px-3 py-2">
                   <span>Status</span>
-                  <span className="rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-100">
+                  <span className="rounded-full bg-yellow-400/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-yellow-100">
                     {job.status}
                   </span>
                 </div>
                 {job.Result && job.Result.length > 0 && (
                   <div className="space-y-2">
                     {job.Result.slice(0, 3).map((r) => (
-                      <div key={r.rank} className="rounded-lg border border-white/10 bg-slate-900 px-3 py-3">
-                        <p className="text-xs uppercase tracking-wide text-slate-400">
+                      <div key={r.rank} className="rounded-lg border border-yellow-400/20 bg-black/60 px-3 py-3">
+                        <p className="text-xs uppercase tracking-wide text-yellow-100/50">
                           Itinerary #{r.rank}
                         </p>
-                        <p className="mt-1 text-base font-semibold text-white">
+                        <p className="mt-1 text-base font-semibold text-yellow-50">
                           {r.cityOrder.join(" → ")}
                         </p>
-                        <p className="text-xs text-slate-400">
+                        <p className="text-xs text-yellow-100/50">
                           Departures: {r.dates.map((d) => new Date(d).toISOString().slice(0, 10)).join(", ")}
                         </p>
-                        <p className="mt-2 text-lg font-semibold text-emerald-200">
+                        <p className="mt-2 text-lg font-semibold text-yellow-200">
                           {(r.totalPriceCents / 100).toFixed(2)} {r.currency}
                         </p>
                       </div>
