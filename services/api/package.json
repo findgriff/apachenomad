@@ -6,6 +6,7 @@
     "dev": "tsx src/server.ts"
   },
   "dependencies": {
+    "@nomad/amadeus-adapter": "workspace:*",
     "@fastify/cors": "^10.0.1",
     "@prisma/client": "^7.2.0",
     "bullmq": "^5.40.1",
