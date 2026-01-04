@@ -36,6 +36,7 @@ type JobResult = {
 };
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+const useMockResults = process.env.NEXT_PUBLIC_USE_MOCK_RESULTS === "true";
 const legPalette = ["#34d399", "#60a5fa", "#f472b6", "#fbbf24", "#a78bfa", "#fb7185"];
 
 const formatDateTime = (value?: string) => {
@@ -43,6 +44,49 @@ const formatDateTime = (value?: string) => {
   const parsed = new Date(value);
   if (Number.isNaN(parsed.getTime())) return value;
   return parsed.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
+};
+
+const buildMockJob = (payload: {
+  origin: string;
+  endFixed?: string;
+  cities: string[];
+  windowStart?: FormDataEntryValue | null;
+  nightsMin: number;
+}) => {
+  const cityOrder = [payload.origin, ...payload.cities];
+  if (payload.endFixed) {
+    cityOrder.push(payload.endFixed);
+  } else if (payload.origin) {
+    cityOrder.push(payload.origin);
+  }
+
+  const startDate = payload.windowStart ? new Date(String(payload.windowStart)) : new Date();
+  const dates = cityOrder.slice(0, -1).map((_, index) => {
+    const d = new Date(startDate);
+    d.setDate(startDate.getDate() + index * Math.max(payload.nightsMin, 1));
+    return d.toISOString();
+  });
+
+  return {
+    id: "mock-job",
+    status: "COMPLETED",
+    Result: [
+      {
+        rank: 1,
+        cityOrder,
+        dates,
+        totalPriceCents: 118500,
+        currency: "EUR",
+      },
+      {
+        rank: 2,
+        cityOrder: [...cityOrder].reverse(),
+        dates: [...dates].reverse(),
+        totalPriceCents: 132900,
+        currency: "EUR",
+      },
+    ],
+  } as JobResult;
 };
 
 export default function Home() {
@@ -91,6 +135,15 @@ export default function Home() {
         .filter(Boolean),
     };
 
+    const mockJob = buildMockJob(payload);
+
+    if (useMockResults) {
+      setJobId("mock");
+      setJob(mockJob);
+      setSubmitting(false);
+      return;
+    }
+
     try {
       const res = await fetch(`${apiUrl}/jobs`, {
         method: "POST",
@@ -105,14 +158,16 @@ export default function Home() {
       setJobId(data.id);
       setJob(null);
     } catch (err: any) {
-      setError(err?.message || "Failed to create job");
+      setJobId("mock");
+      setJob(mockJob);
+      setError("API unavailable. Showing mock results for testing.");
     } finally {
       setSubmitting(false);
     }
   }
 
   async function refresh() {
-    if (!jobId) return;
+    if (!jobId || jobId === "mock") return;
     setLoading(true);
     setError(null);
     try {
@@ -316,9 +371,12 @@ export default function Home() {
                           <p className="text-lg font-semibold text-yellow-200">
                             {(r.totalPriceCents / 100).toFixed(2)} {r.currency}
                           </p>
-                          <button className="mt-2 w-full rounded-full bg-yellow-400 px-3 py-1.5 text-xs font-semibold text-black shadow-md shadow-yellow-500/30 transition hover:-translate-y-0.5 hover:bg-yellow-300">
+                          <Link
+                            href="/bookings"
+                            className="mt-2 inline-flex w-full items-center justify-center rounded-full bg-yellow-400 px-3 py-1.5 text-xs font-semibold text-black shadow-md shadow-yellow-500/30 transition hover:-translate-y-0.5 hover:bg-yellow-300"
+                          >
                             Book flight
-                          </button>
+                          </Link>
                         </div>
                       </div>
                     </div>
