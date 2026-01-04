@@ -38,11 +38,11 @@ export default function Home() {
     const formData = new FormData(form);
 
     const payload = {
-      origin: String(formData.get("origin") || "").toUpperCase(),
-      endFixed: (formData.get("endFixed") as string) || undefined,
+      origin: String(formData.get("origin") || "").trim(),
+      endFixed: String(formData.get("endFixed") || "").trim() || undefined,
       cities: String(formData.get("cities") || "")
         .split(",")
-        .map((s) => s.trim().toUpperCase())
+        .map((s) => s.trim())
         .filter(Boolean),
       windowStart: formData.get("windowStart"),
       windowEnd: formData.get("windowEnd"),
@@ -104,7 +104,7 @@ export default function Home() {
           <p className="text-sm uppercase tracking-[0.2em] text-emerald-200">Apache Nomad</p>
           <h1 className="text-3xl font-semibold sm:text-4xl">Multi-stop trip planner</h1>
           <p className="text-sm text-slate-300 sm:text-base">
-            Plan a 3–6 city loop with Amadeus pricing. Provide your cities, date window, and airline
+            Plan a 2–6 city loop with Amadeus pricing. Provide your cities, date window, and airline
             preferences; we will queue an optimization job and return the best itinerary.
           </p>
         </header>
@@ -113,10 +113,10 @@ export default function Home() {
           <form className="space-y-4" onSubmit={submit}>
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="flex flex-col gap-2 text-sm">
-                Origin (IATA)
+                Origin (city or IATA)
                 <input
                   name="origin"
-                  placeholder="SOF"
+                  placeholder="Sofia or SOF"
                   required
                   className="rounded-lg border border-white/10 bg-slate-900 px-3 py-2 text-base text-white outline-none ring-emerald-400/30 focus:ring-2"
                 />
@@ -132,10 +132,10 @@ export default function Home() {
             </div>
 
             <label className="flex flex-col gap-2 text-sm">
-              Cities to visit (3–6, comma separated)
+              Cities to visit (2–6, comma separated)
               <input
                 name="cities"
-                placeholder="BCN, ROM, PAR"
+                placeholder="Paris, Rome, BCN"
                 required
                 className="rounded-lg border border-white/10 bg-slate-900 px-3 py-2 text-base text-white outline-none ring-emerald-400/30 focus:ring-2"
               />
